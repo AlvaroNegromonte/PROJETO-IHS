@@ -1,1 +1,0 @@
-savedcmd_/home/de2i150/Documentos/ProjetoIHS/ihs-project-layout-main/driver/pci/modules.order := {   echo /home/de2i150/Documentos/ProjetoIHS/ihs-project-layout-main/driver/pci/de2i-150.o; :; } > /home/de2i150/Documentos/ProjetoIHS/ihs-project-layout-main/driver/pci/modules.order
