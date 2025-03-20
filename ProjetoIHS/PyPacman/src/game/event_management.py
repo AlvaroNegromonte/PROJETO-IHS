@@ -2,6 +2,7 @@ from pygame import (K_DOWN, K_ESCAPE, K_LEFT, K_RIGHT, K_SPACE, K_UP, KEYDOWN,
                     QUIT, K_q)
 from pygame import USEREVENT
 from pygame.time import set_timer
+from integracao import *
 
 class EventHandler:
     def __init__(self, screen, game_state):
@@ -12,13 +13,14 @@ class EventHandler:
         self._game_screen.running = False
 
     def key_bindings(self, key):
-        if key == K_LEFT:
+        Integration=IO()
+        if Integration.get_PB(3)==0:
             self._game_screen.direction = "l"
-        elif key == K_RIGHT:
+        elif Integration.get_PB(0)==0:
             self._game_screen.direction = "r"
-        elif key == K_UP:
+        elif Integration.get_PB(2)==0:
             self._game_screen.direction = "u"
-        elif key == K_DOWN:
+        elif Integration.get_PB(4)==0:
             self._game_screen.direction = "d"
 
     def handle_events(self, event):
@@ -41,4 +43,3 @@ class EventHandler:
         
         if event.type == self._game_screen.power_up_event:
             self._game_screen.is_pacman_powered=False
-
