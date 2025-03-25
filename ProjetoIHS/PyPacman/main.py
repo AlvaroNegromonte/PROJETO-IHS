@@ -1,6 +1,6 @@
 import os, sys              #Modificacao
 from fcntl import ioctl
-from ProjetoIHS.PyPacman.integracao import * 
+from integracao import * 
 
 from src.runner import GameRun
 
