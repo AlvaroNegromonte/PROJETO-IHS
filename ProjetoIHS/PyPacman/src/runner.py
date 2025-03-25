@@ -1,3 +1,7 @@
+import os
+from fcntl import ioctl
+from integracao import *
+
 import sys
 
 import pygame
@@ -25,6 +29,32 @@ class GameRun:
         self.all_sprites = pygame.sprite.Group()
         self.gui = ScreenManager(self.screen, self.game_state, self.all_sprites)
         logger.info("screen manager object created")
+         
+        # IO setup
+        self.io = IO()
+        
+    # Modificacao    
+    def update_display(self):
+        # Atualiza o display de 7 segmentos com a pontuação e o highscore
+        score_str = str(self.game_state.points).zfill(4)  # Certifica-se de que a pontuação tenha 4 dígitos
+        #highscore_str = str(self.game_state.highscore).zfill(4)  # Certifica-se de que o highscore tenha 4 dígitos
+
+        self.io.put_DP(0, score_str)  # Atualiza o display direito com a pontuação
+       # self.io.put_DP(1, highscore_str)  # Atualiza o display esquerdo com o highscore
+        
+    def update_led_score(self):
+        # Calcular o número de LEDs a serem acesos com base na pontuação
+        num_leds_to_light = self.game_state.points // 400       # substituir 400 por outro numero dependendo do quanto cresce os pontos (ligar mais leds pro video ficar bonito msm)
+        array = []
+        # Atualizar o estado dos LEDs
+        for i in range(num_leds_to_light):
+            array.append(i)
+            self.io.put_ar_LD(array)  # Substitua por sua função específica para acender LEDs
+    
+    # Funcao de inicializacao dos leds
+    def iniciar_leds(self):
+        array = []
+        self.io.put_ar_LD(array)
 
     def initialize_highscore(self):
         with open("levels/stats.json") as fp:
@@ -61,7 +91,21 @@ class GameRun:
         self.create_ghost_mode_event()
         self.initialize_sounds()
         self.initialize_highscore()
+        self.iniciar_leds()             #Modificacao
+        self.update_display()           #Modificacao
+        
+        last_score = -1             #Modificacao
+        #last_highscore = -1         #Modificacao
+                
         while self.game_state.running:
+            
+            #Modificacao
+            if self.game_state.points != last_score: #or self.game_state.highscore != last_highscore:
+                self.update_display()
+                self.update_led_score()
+                last_score = self.game_state.points
+                #last_highscore = self.game_state.highscore
+            
             self.game_state.current_time = pygame.time.get_ticks()
             for event in pygame.event.get():
                 self.events.handle_events(event)
@@ -74,5 +118,6 @@ class GameRun:
             dt = clock.tick(self.game_state.fps)
             dt /= 100
         self.update_highscore()
+        self.iniciar_leds()             #Modificacao
         pygame.quit()
         sys.exit()
