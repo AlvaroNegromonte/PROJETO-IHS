@@ -1,3 +1,5 @@
+from ProjetoIHS.PyPacman.integracao import *
+
 from math import ceil
 
 from pygame import image, transform
@@ -197,25 +199,26 @@ class Pacman(Sprite):
                     self.game_state.pacman_direction = 'd'
  
     def move_pacman(self, dt: float):
+        Integration=IO()
         match self.move_direction:
             case "l":
-                if self.edges_helper_vertical(self.tiny_start_x, self.tiny_start_y, -1):
+                if Integration.get_PB(3)==0 and self.edges_helper_vertical(self.tiny_start_x, self.tiny_start_y, -1):
                     self.rect_x -= PACMAN_SPEED
                     self.tiny_start_y -= 1
             case "r":
-                if self.edges_helper_vertical(
+                if Integration.get_PB(0)==0 and self.edges_helper_vertical(
                 self.tiny_start_x, self.tiny_start_y, self.subdiv * 2
             ):
                     self.rect_x += PACMAN_SPEED
                     self.tiny_start_y += 1
 
             case "u":
-                if self.edge_helper_horizontal(self.tiny_start_x, self.tiny_start_y, -1):
+                if Integration.get_PB(2)==0 and self.edge_helper_horizontal(self.tiny_start_x, self.tiny_start_y, -1):
                     self.rect_y -= PACMAN_SPEED
                     self.tiny_start_x -= 1
             
             case "d":
-                if self.edge_helper_horizontal(
+                if Integration.get_PB(1)==0 and self.edge_helper_horizontal(
                 self.tiny_start_x, self.tiny_start_y, self.subdiv * 2
             ):
                     self.rect_y += PACMAN_SPEED
