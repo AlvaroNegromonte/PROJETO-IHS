@@ -173,26 +173,27 @@ class Pacman(Sprite):
                 self.game_state.points += POWER_POINT
                 
     def movement_bind(self):
+        Integration=IO()
         match self.game_state.direction:
             case 'l':
-                if self.edges_helper_vertical(self.tiny_start_x, self.tiny_start_y, -1):
+                if Integration.get_PB(3)==0 and self.edges_helper_vertical(self.tiny_start_x, self.tiny_start_y, -1):
                     self.move_direction = "l"
                     self.game_state.pacman_direction = 'l'
             
             case 'r':
-                if self.edges_helper_vertical(
+                if Integration.get_PB(0)==0 and self.edges_helper_vertical(
                     self.tiny_start_x, self.tiny_start_y, self.subdiv * 2
                 ):
                     self.move_direction = "r"
                     self.game_state.pacman_direction = 'r'
             
             case 'u':
-                if self.edge_helper_horizontal(self.tiny_start_x, self.tiny_start_y, -1):
+                if Integration.get_PB(2)==0 and self.edge_helper_horizontal(self.tiny_start_x, self.tiny_start_y, -1):
                     self.move_direction = "u"
                     self.game_state.pacman_direction = 'u'
             
             case 'd':
-                if self.edge_helper_horizontal(
+                if Integration.get_PB(1)==0 and self.edge_helper_horizontal(
                     self.tiny_start_x, self.tiny_start_y, self.subdiv * 2
                 ):
                     self.move_direction = "d" 
