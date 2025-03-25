@@ -12,7 +12,7 @@ class EventHandler:
     def pygame_quit(self):
         self._game_screen.running = False
 
-    def key_bindings(self, key):
+    def key_bindings(self):
         Integration=IO()
         if Integration.get_PB(3)==0:
             self._game_screen.direction = "l"
@@ -28,7 +28,7 @@ class EventHandler:
             self.pygame_quit()
 
         if event.type == KEYDOWN:
-            self.key_bindings(event.key)
+            self.key_bindings()
         
         if event.type == self._game_screen.custom_event:
             curr_mode = self._game_screen.ghost_mode
