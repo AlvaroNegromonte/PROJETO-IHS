@@ -2,7 +2,7 @@ from pygame import (K_DOWN, K_ESCAPE, K_LEFT, K_RIGHT, K_SPACE, K_UP, KEYDOWN,
                     QUIT, K_q)
 from pygame import USEREVENT
 from pygame.time import set_timer
-from integracao import *
+from ProjetoIHS.PyPacman.integracao import *
 
 class EventHandler:
     def __init__(self, screen, game_state):
@@ -20,7 +20,7 @@ class EventHandler:
             self._game_screen.direction = "r"
         elif Integration.get_PB(2)==0:
             self._game_screen.direction = "u"
-        elif Integration.get_PB(4)==0:
+        elif Integration.get_PB(1)==0:
             self._game_screen.direction = "d"
 
     def handle_events(self, event):
