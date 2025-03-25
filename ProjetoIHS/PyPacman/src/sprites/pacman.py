@@ -172,54 +172,64 @@ class Pacman(Sprite):
                 self.collectibles -= 1
                 self.game_state.points += POWER_POINT
                 
+    def read_inputs_from_board(self):
+        Integration = IO()
+        """Lê os botões da placa e ajusta a direção do Pacman."""
+        if Integration.get_PB(3) == 0:  # Botão pressionado
+            self.game_state.direction = 'l'  # Define para mover à esquerda
+        elif Integration.get_PB(0) == 0:
+            self.game_state.direction = 'r'
+        elif Integration.get_PB(2) == 0:
+            self.game_state.direction = 'u'
+        elif Integration.get_PB(1) == 0:
+            self.game_state.direction = 'd'
+                
     def movement_bind(self):
-        Integration=IO()
         match self.game_state.direction:
             case 'l':
-                if Integration.get_PB(3)==0 and self.edges_helper_vertical(self.tiny_start_x, self.tiny_start_y, -1):
+                if self.edges_helper_vertical(self.tiny_start_x, self.tiny_start_y, -1):
                     self.move_direction = "l"
                     self.game_state.pacman_direction = 'l'
             
             case 'r':
-                if Integration.get_PB(0)==0 and self.edges_helper_vertical(
+                if self.edges_helper_vertical(
                     self.tiny_start_x, self.tiny_start_y, self.subdiv * 2
                 ):
                     self.move_direction = "r"
                     self.game_state.pacman_direction = 'r'
             
             case 'u':
-                if Integration.get_PB(2)==0 and self.edge_helper_horizontal(self.tiny_start_x, self.tiny_start_y, -1):
+                if self.edge_helper_horizontal(self.tiny_start_x, self.tiny_start_y, -1):
                     self.move_direction = "u"
                     self.game_state.pacman_direction = 'u'
             
             case 'd':
-                if Integration.get_PB(1)==0 and self.edge_helper_horizontal(
+                if self.edge_helper_horizontal(
                     self.tiny_start_x, self.tiny_start_y, self.subdiv * 2
                 ):
                     self.move_direction = "d" 
                     self.game_state.pacman_direction = 'd'
  
     def move_pacman(self, dt: float):
-        Integration=IO()
         match self.move_direction:
             case "l":
-                if Integration.get_PB(3)==0 and self.edges_helper_vertical(self.tiny_start_x, self.tiny_start_y, -1):
+                if self.edges_helper_vertical(self.tiny_start_x, self.tiny_start_y, -1):
                     self.rect_x -= PACMAN_SPEED
                     self.tiny_start_y -= 1
             case "r":
-                if Integration.get_PB(0)==0 and self.edges_helper_vertical(
+                if self.edges_helper_vertical(
                 self.tiny_start_x, self.tiny_start_y, self.subdiv * 2
             ):
                     self.rect_x += PACMAN_SPEED
                     self.tiny_start_y += 1
 
             case "u":
-                if Integration.get_PB(2)==0 and self.edge_helper_horizontal(self.tiny_start_x, self.tiny_start_y, -1):
+                if self.edge_helper_horizontal(self.tiny_start_x, self.tiny_start_y, -1):
                     self.rect_y -= PACMAN_SPEED
                     self.tiny_start_x -= 1
             
             case "d":
-                if Integration.get_PB(1)==0 and self.edge_helper_horizontal(
+                if self.edge_helper_horizontal(
                 self.tiny_start_x, self.tiny_start_y, self.subdiv * 2
             ):
                     self.rect_y += PACMAN_SPEED
@@ -229,6 +239,7 @@ class Pacman(Sprite):
                                        CELL_SIZE[0]*2, CELL_SIZE[0]*2)
 
     def update(self, dt: float):
+        self.read_inputs_from_board()  # Lê os botões da placa antes de mover
         self.frame_update()
         self.build_bounding_boxes(self.rect_x, self.rect_y)
         self.movement_bind()
