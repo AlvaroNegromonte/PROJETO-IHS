@@ -1,4 +1,4 @@
-from ProjetoIHS.PyPacman.integracao import *
+from integracao import *
 
 from math import ceil
 
