@@ -1,6 +1,6 @@
 import os
 from fcntl import ioctl
-from ProjetoIHS.PyPacman.integracao import *
+from integracao import *
 
 import sys
 
