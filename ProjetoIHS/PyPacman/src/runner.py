@@ -102,6 +102,8 @@ class GameRun:
             # Modificação: Verifica o switch 2 antes de continuar a execução
             if self.io.get_SW(2):  
                 self.game_state.running = False  # Sai do loop principal
+                self.iniciar_leds()  # Modificação: Reseta os LEDs ao sair do jogo
+                self.update_display() # Modificação: Reseta o display de 7 segmentos ao sair do jogo
                 break  # Garante que o loop seja interrompido imediatamente
             
             if self.game_state.points != last_score:
