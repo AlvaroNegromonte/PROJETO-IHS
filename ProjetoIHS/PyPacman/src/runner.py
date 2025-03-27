@@ -42,6 +42,15 @@ class GameRun:
         self.io.put_DP(0, score_str)  # Atualiza o display direito com a pontuação
         self.io.put_DP(1, highscore_str)  # Atualiza o display esquerdo com o highscore
         
+    # Modificacao    
+    def finish_display(self):
+        # Atualiza o display de 7 segmentos com a pontuação e o highscore
+        score_str = 0
+        highscore_str = 0
+
+        self.io.put_DP(0, score_str)  # Atualiza o display direito com a pontuação
+        self.io.put_DP(1, highscore_str)  # Atualiza o display esquerdo com o highscore
+        
     def update_led_score(self):
         # Calcular o número de LEDs a serem acesos com base na pontuação
         num_leds_to_light = self.game_state.points // 100       # substituir 100 por outro numero dependendo do quanto cresce os pontos (ligar mais leds pro video ficar bonito msm)
@@ -103,7 +112,7 @@ class GameRun:
             if self.io.get_SW(2):  
                 self.game_state.running = False  # Sai do loop principal
                 self.iniciar_leds()  # Modificação: Reseta os LEDs ao sair do jogo
-                self.update_display() # Modificação: Reseta o display de 7 segmentos ao sair do jogo
+                self.finish_display()  # Modificação: Reseta o display de 7 segmentos ao sair do jogo
                 break  # Garante que o loop seja interrompido imediatamente
             
             if self.game_state.points != last_score:
@@ -126,7 +135,7 @@ class GameRun:
 
         self.update_highscore()
         self.iniciar_leds()  # Modificação: Reseta os LEDs ao sair do jogo
-        self.update_display() # Modificação: Reseta o display de 7 segmentos ao sair do jogo
+        self.finish_display()  # Modificação: Reseta o display de 7 segmentos ao sair do jogo
 
         pygame.quit()
         sys.exit()
