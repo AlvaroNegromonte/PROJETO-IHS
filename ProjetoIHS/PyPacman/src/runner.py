@@ -98,14 +98,18 @@ class GameRun:
         last_highscore = -1         #Modificacao
                 
         while self.game_state.running:
+    
+            # Modificação: Verifica o switch 2 antes de continuar a execução
+            if self.io.get_SW(2):  
+                self.game_state.running = False  # Sai do loop principal
+                break  # Garante que o loop seja interrompido imediatamente
             
-            #Modificacao
-            if self.game_state.points != last_score: #or self.game_state.highscore != last_highscore:
+            if self.game_state.points != last_score:
                 self.update_display()
                 self.update_led_score()
                 last_score = self.game_state.points
                 last_highscore = self.game_state.highscore
-            
+
             self.game_state.current_time = pygame.time.get_ticks()
             for event in pygame.event.get():
                 self.events.handle_events(event)
@@ -117,8 +121,9 @@ class GameRun:
             pygame.display.flip()
             dt = clock.tick(self.game_state.fps)
             dt /= 100
+
         self.update_highscore()
-        self.iniciar_leds()            #Modificacao
-        if self.io.get_SW(2):
-            pygame.quit()
+        self.iniciar_leds()  # Modificação: Reseta os LEDs ao sair do jogo
+
+        pygame.quit()
         sys.exit()
