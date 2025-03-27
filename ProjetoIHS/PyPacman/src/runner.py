@@ -124,6 +124,7 @@ class GameRun:
 
         self.update_highscore()
         self.iniciar_leds()  # Modificação: Reseta os LEDs ao sair do jogo
+        self.update_display() # Modificação: Reseta o display de 7 segmentos ao sair do jogo
 
         pygame.quit()
         sys.exit()
