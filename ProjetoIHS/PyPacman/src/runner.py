@@ -7,6 +7,8 @@ import sys
 import pygame
 import json
 
+import time
+
 from src.configs import *
 from src.game.event_management import EventHandler
 from src.game.state_management import GameState
@@ -45,9 +47,10 @@ class GameRun:
     # Modificacao    
     def finish_display(self):
         # Atualiza o display de 7 segmentos com a pontuação e o highscore
-        score_str = 0
-        highscore_str = 0
-
+        score_str = "0000"
+        highscore_str = "0000"
+        
+        time.sleep(0.5)  # Pequeno atraso para garantir atualização
         self.io.put_DP(0, score_str)  # Atualiza o display direito com a pontuação
         self.io.put_DP(1, highscore_str)  # Atualiza o display esquerdo com o highscore
         
@@ -135,7 +138,7 @@ class GameRun:
 
         self.update_highscore()
         self.iniciar_leds()  # Modificação: Reseta os LEDs ao sair do jogo
-        self.finish_display()  # Modificação: Reseta o display de 7 segmentos ao sair do jogo
+        self.finish_display()
 
         pygame.quit()
         sys.exit()
